@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FunApp.Web.Areas.Identity.Data;
+﻿using FunApp.Data;
+using FunApp.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -11,7 +8,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using FunApp.Web.Data;
 using FunApp.Web.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,7 +36,16 @@ namespace FunApp.Web
             services.AddDbContext<FunAppContext>(options =>
                 options.UseSqlServer(
                     this.Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<FunAppUser>()
+            services.AddDefaultIdentity<FunAppUser>(options =>
+                    {
+                        options.Password.RequireDigit = false;
+                        options.Password.RequireLowercase = false;
+                        options.Password.RequireNonAlphanumeric = false;
+                        options.Password.RequireUppercase = false;
+                        options.Password.RequiredUniqueChars = 0;
+                        options.Password.RequiredLength = 6;
+                    }
+                    )
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<FunAppContext>();
 
