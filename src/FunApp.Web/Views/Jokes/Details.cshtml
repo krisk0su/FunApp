@@ -1,0 +1,21 @@
+﻿@model IndexJokeViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    var categories = ViewData["Categories"] as IEnumerable<SelectListItem>;
+}
+
+<h1>Create</h1>
+
+<h4>Joke Created!!!</h4>
+<hr />
+<div>Content -> @Model.Content</div>
+<div>CategoryId -> @Model.CategoryName</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
