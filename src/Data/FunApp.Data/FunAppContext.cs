@@ -1,7 +1,8 @@
 ﻿using FunApp.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Proxies;
 namespace FunApp.Data
 {
     public class FunAppContext : IdentityDbContext<FunAppUser>
@@ -9,10 +10,16 @@ namespace FunApp.Data
         public FunAppContext(DbContextOptions<FunAppContext> options)
             : base(options)
         {
+           
         }
 
         public DbSet<Joke> Jokes { get; set; }
         public DbSet<Category> Categories { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            //optionsBuilder.UseLazyLoadingProxies();
+        }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

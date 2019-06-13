@@ -3,20 +3,41 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using FunApp.Services.DataServices;
+using FunApp.Services.Models.Home;
 using Microsoft.AspNetCore.Mvc;
 using FunApp.Web.Models;
+
 
 namespace FunApp.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private IJokesService jokesService;
+
+
+        public HomeController(IJokesService service)
+        {
+            this.jokesService = service;
+        }
         public IActionResult Index()
         {
-            return View();
+
+
+            var viewModel = new IndexJokesViewModel()
+            {
+                Jokes = this.jokesService.GerRandomJokes(10)
+            };
+            return this.View(viewModel);
+
         }
+
+           
+        
 
         public IActionResult Privacy()
         {
+
             return View();
         }
 

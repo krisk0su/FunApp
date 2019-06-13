@@ -6,6 +6,7 @@ using System.Text;
 using AngleSharp;
 using AngleSharp.Html.Parser;
 using FunApp.Data;
+using FunApp.Data.Common;
 using FunApp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -81,16 +82,18 @@ namespace SandBox
 
       
 
-        private static void ConfigureServices(ServiceCollection serviceCollection)
+        private static void ConfigureServices(ServiceCollection services)
         {
             var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", false, true)
                 .AddEnvironmentVariables()
                 .Build();
 
-            serviceCollection.AddDbContext<FunAppContext>(options =>
+            services.AddDbContext<FunAppContext>(options =>
                 options.UseSqlServer(
                     configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped(typeof(IRepository<>), typeof(DbRepository<>));
         }
     }
 }
